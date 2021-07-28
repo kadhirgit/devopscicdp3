@@ -49,9 +49,9 @@ commands:
             && pip3 install awscli \
             && rm -rf /var/cache/apk/*
             echo "Destroying environment: <<parameters.workflow_id>> "
-            aws cloudformation delete-stack --stack-name udapeoplep3-backend-<<parameters.workflow_id>>
+            aws cloudformation delete-stack --stack-name udapeoplep3-backend-<<parameters.workflow_id>> --region ap-south-1
             aws s3 rm s3://udapeoplep3-udap-<<parameters.workflow_id>> --recursive
-            aws cloudformation delete-stack --stack-name udapeoplep3-frontend-<<parameters.workflow_id>>
+            aws cloudformation delete-stack --stack-name udapeoplep3-frontend-<<parameters.workflow_id>> --region ap-south-1
 
 # ----------------------------------   to reverse the migration   --------------------------------------------------------------------------
   revert-migrations:
@@ -499,8 +499,8 @@ jobs:
               if [ "${OldWorkflowID}" != "<< pipeline.parameters.workflow-id >>" ]
               then
                 aws s3 rm "s3://udapeople-udap-${CIRCLE_WORKFLOW_ID:5:7}" --recursive
-                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:5:7}"
-                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:5:7}"
+                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:5:7} --region ap-south-1"
+                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:5:7} --region ap-south-1"
               fi
   
 
