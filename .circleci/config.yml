@@ -49,9 +49,9 @@ commands:
             && pip3 install awscli \
             && rm -rf /var/cache/apk/*
             echo "Destroying environment: <<parameters.workflow_id>> "
-            aws cloudformation delete-stack --stack-name udapd3-backend-<<parameters.workflow_id>> --region ap-south-1
+            aws cloudformation delete-stack --stack-name udapeoplep3-backend-<<parameters.workflow_id>> --region us-west-2
             aws s3 rm s3://udapeoplep3-udap-<<parameters.workflow_id>> --recursive
-            aws cloudformation delete-stack --stack-name udapd3-frontend-<<parameters.workflow_id>> --region ap-south-1
+            aws cloudformation delete-stack --stack-name udapeoplep3-frontend-<<parameters.workflow_id>> --region us-west-2
 
 # ----------------------------------   to reverse the migration   --------------------------------------------------------------------------
   revert-migrations:
@@ -207,17 +207,17 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --stack-name udapd3-frontend-${CIRCLE_WORKFLOW_ID:0:7} \
+              --stack-name udapeoplep3-frontend-${CIRCLE_WORKFLOW_ID:0:7} \
               --parameter-overrides ID="udap-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --region ap-south-1       
+              --region us-west-2       
       - run:
           name: deploy back-end infrastructure
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --stack-name udapd3-backend-${CIRCLE_WORKFLOW_ID:0:7} \
+              --stack-name udapeoplep3-backend-${CIRCLE_WORKFLOW_ID:0:7} \
               --parameter-overrides ID="udap-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --region ap-south-1
+              --region us-west-2
 
       - run:
           name: Add back-end ip to ansible inventory
@@ -247,7 +247,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["46:6e:23:f0:00:75:c4:3b:11:a6:f4:46:3f:41:47:97"]
+          fingerprints: ["95:42:17:70:6c:4e:27:5b:8b:0c:3f:0b:37:c4:45:e6"]
       - attach_workspace:
           at: ~/
       - restore_cache:
@@ -370,7 +370,7 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - add_ssh_keys:
-          fingerprints: ["46:6e:23:f0:00:75:c4:3b:11:a6:f4:46:3f:41:47:97"]
+          fingerprints: ["95:42:17:70:6c:4e:27:5b:8b:0c:3f:0b:37:c4:45:e6"]
       - attach_workspace:
           at: ~/
       - run: 
@@ -439,7 +439,7 @@ jobs:
       - run:
           name: Frontend smoke test
           command: |
-            if curl -s http://udapeoplep3-udap-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.ap-south-1.amazonaws.com/ | grep "Welcome"
+            if curl -s http://udapeoplep3-udap-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.us-west-2.amazonaws.com/ | grep "Welcome"
             then
               return 0
             else
@@ -500,8 +500,8 @@ jobs:
               if [ "${OldWorkflowID}" != "<< pipeline.parameters.workflow-id >>" ]
               then
                 aws s3 rm "s3://udapeople-udap-${CIRCLE_WORKFLOW_ID:5:7}" --recursive
-                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:5:7} --region ap-south-1"
-                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:5:7} --region ap-south-1"
+                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:5:7} --region us-west-2"
+                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:5:7} --region us-west-2"
               fi
   
 
