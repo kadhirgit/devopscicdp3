@@ -273,7 +273,7 @@ jobs:
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml            
             cat backend/.env
-            ls backend
+          #  ls backend
       - persist_to_workspace:
           root: ~/
           paths:
@@ -295,6 +295,7 @@ jobs:
           command: |            
             npm install            
             npm run build
+            ls -all
             npm run migrations >> migration_output.txt
             cat migration_output.txt    
       - run:
