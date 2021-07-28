@@ -232,7 +232,8 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
             - output.txt
-      - destroy-environment:
+      - destroy-environment: 
+
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
 # -----------------------------  aws infra config  ---------------------  
@@ -367,7 +368,7 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - add_ssh_keys:
-          fingerprints: ["3a:16:f7:4e:00:8e:d9:eb:8a:1c:0b:b1:3d:e6:43:6f"]
+          fingerprints: ["46:6e:23:f0:00:75:c4:3b:11:a6:f4:46:3f:41:47:97"]
       - attach_workspace:
           at: ~/
       - run: 
